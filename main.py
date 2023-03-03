@@ -1,6 +1,10 @@
 import argparse
 import requests
 
+TIMEOUT_SECONDS = 10
+
+def report_timeout(url : str)  -> str :
+    return f"   timeout: request took more than {TIMEOUT_SECONDS} seconds {url}"
 
 def report_ok(url: str, code: int) -> str:
     return f"        ok: [{code:03}] {url}"
@@ -10,9 +14,11 @@ def report_broken(url: str, code: int) -> str:
     return f"    BROKEN: [{code:03}] {url}"
 
 
-def report(url: str, status: int) -> int:
+def report(url: str, status: int | None) -> int:
     broken = 0
     match status:
+        case None:
+            print(report_timeout(url))
         case 200:
             print(report_ok(url, status))
         case err_code:
@@ -26,8 +32,11 @@ def report_all(results: list[tuple[str, int]]):
         report(url, status)
 
 
-def check(url: str) -> int:
-    return requests.get(url).status_code
+def check(url: str) -> int | None:
+    try:
+        return requests.get(url, timeout=TIMEOUT_SECONDS).status_code
+    except:
+        return None
 
 
 def parse_urls(path: str, filetype: None | str = None) -> list[str] | None:

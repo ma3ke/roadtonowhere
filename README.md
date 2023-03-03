@@ -43,6 +43,21 @@ Parsing 'examples/example.md'... found 5 urls. Checking for broken urls...
 Found 2 broken urls in 'examples/example.md'.
 ```
 
+## Timeout
+
+If a request takes more than 10 seconds, it will timeout.
+The timeout is reported in the output as such:
+
+```
+        ...
+        ok: [200] https://github.com/robertdavidgraham/masscan
+        ok: [200] https://github.com/gvb84/pbscan
+   timeout: request took more than 10 seconds http://www.hping.org/
+        ok: [200] https://github.com/traviscross/mtr
+        ok: [200] https://github.com/mehrdadrad/mylg
+        ...
+```
+
 ## Filetypes
 
 Currently, the script has naive support for:
