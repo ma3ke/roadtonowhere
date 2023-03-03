@@ -35,7 +35,9 @@ def report_all(results: list[tuple[str, int]]):
 def check(url: str) -> int | None:
     try:
         return requests.get(url, timeout=TIMEOUT_SECONDS).status_code
-    except:
+    except KeyboardInterrupt:
+        exit(1)
+    except requests.Timeout:
         return None
 
 
