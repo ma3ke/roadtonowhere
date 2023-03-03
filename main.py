@@ -3,8 +3,10 @@ import requests
 
 TIMEOUT_SECONDS = 10
 
-def report_timeout(url : str)  -> str :
+
+def report_timeout(url: str) -> str:
     return f"   timeout: request took more than {TIMEOUT_SECONDS} seconds {url}"
+
 
 def report_ok(url: str, code: int) -> str:
     return f"        ok: [{code:03}] {url}"
@@ -114,17 +116,7 @@ def parse_urls(path: str, filetype: None | str = None) -> list[str] | None:
     return urls
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="check a document for broken urls",
-        epilog="By ma3ke, 2023. I hope you have a nice day :)",
-    )
-    parser.add_argument(
-        "documents", metavar="path", nargs="+", type=str, help="a file to be checked"
-    )
-    args = parser.parse_args()
-
-    paths = args.documents
+def check_paths(paths: list[str]):
     for path in paths:
         print(f"Parsing '{path}'...", end=" ")
         urls = parse_urls(path)
@@ -139,6 +131,20 @@ def main():
             status = check(url)
             broken += report(url, status)
         print(f"Found {broken} broken urls in '{path}'.\n")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="check a document for broken urls",
+        epilog="By ma3ke, 2023. I hope you have a nice day :)",
+    )
+    parser.add_argument(
+        "documents", metavar="path", nargs="+", type=str, help="a file to be checked"
+    )
+    args = parser.parse_args()
+
+    paths = args.documents
+    check_paths(paths)
 
 
 if __name__ == "__main__":
