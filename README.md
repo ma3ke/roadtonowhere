@@ -1,4 +1,4 @@
-# Road to Nowhere
+# Road to Nowhere 🚶‍♀️
 
 A script to check files for broken http urls.
 
