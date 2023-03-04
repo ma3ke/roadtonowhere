@@ -5,6 +5,16 @@ A script to check files for broken http urls.
 It finds the urls in each of the specified documents, and performs a get request for each of the urls.
 It reports the exit code of the request to stdout, making it clear which and how many urls are broken.
 
+## Installation
+
+To install _roadtonowhere_, clone this repository, go into the directory, and install it using _pip_.
+
+```console
+git clone https://github.com/koenwestendorp/roadtonowhere
+cd roadtonowhere
+pip install .
+```
+
 ## Usage
 
 ```

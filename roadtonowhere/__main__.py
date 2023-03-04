@@ -136,6 +136,7 @@ def check_paths(paths: list[str]):
 def main():
     parser = argparse.ArgumentParser(
         description="check a document for broken urls",
+        prog="roadtonowhere",
         epilog="By ma3ke, 2023. I hope you have a nice day :)",
     )
     parser.add_argument(
