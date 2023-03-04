@@ -62,9 +62,9 @@ The timeout is reported in the output as such:
 
 Currently, the script has naive support for:
 
-- `.html` **html** (heuristic: starts with `href="http{s}://`, ends with `"`)
-- `.md` **markdown** (heuristic: starts with `(http{s}://`, ends with `)`)
-- other filetypes (heuristic: starts with `http{s}://`, ends with a whitespace character)
+- `.html` **html** (heuristic: starts with `href="http{,s}://`, ends with `"`)
+- `.md` **markdown** (heuristic: starts with `(http{,s}://`, ends with `)`)
+- other filetypes (heuristic: starts with `http{,s}://`, ends with a whitespace character)
 
 These heuristics are imperfect, but they do get the job done in most circumstances.
 
