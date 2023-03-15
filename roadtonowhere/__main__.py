@@ -1,7 +1,20 @@
 import argparse
 import requests
+from html.parser import HTMLParser
 
 TIMEOUT_SECONDS = 10
+
+class UrlExtractor(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.urls = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag == "a":
+            for name, url in attrs:
+                if name == "href" and url != None and url.startswith("http"):
+                    self.urls.append(url)
 
 
 def report_timeout(url: str) -> str:
@@ -50,12 +63,17 @@ def parse_urls(path: str, filetype: None | str = None) -> list[str] | None:
     with open(path, "r") as file:
         contents = file.read()
 
+
+    # We actually parse the HTML files. For Markdown and other files, we handle
+    # the urls heuristically.
+    if filetype == "html":
+        p = UrlExtractor()
+        p.feed(contents)
+        return p.urls
+
     # Specify the heuristic for finding the start of a url depending on the
     # filetype.
     match filetype:
-        case "html":
-            http_heuristic = 'href="http://'
-            https_heuristic = 'href="https://'
         case "md":
             http_heuristic = "(http://"
             https_heuristic = "(https://"
@@ -93,8 +111,6 @@ def parse_urls(path: str, filetype: None | str = None) -> list[str] | None:
     # Specify the heuristic for finding the end of a url depending on the
     # filetype.
     match filetype:
-        case "html":
-            end_condition = lambda c: c == '"'
         case "md":
             end_condition = lambda c: c == ")"
         case _:
@@ -120,7 +136,7 @@ def check_paths(paths: list[str]):
     for path in paths:
         print(f"Parsing '{path}'...", end=" ")
         urls = parse_urls(path)
-        if urls == None:
+        if urls == None or len(urls) == 0:
             print("no urls found.")
             break
         print(f"found {len(urls)} urls.", end=" ")
