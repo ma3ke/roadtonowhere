@@ -70,10 +70,12 @@ The timeout is reported in the output as such:
 
 ## Filetypes
 
-Currently, the script has naive support for:
+Currently, the script has good support for extracting urls from html files.
+For finding urls in html files, `html.parser.HTMLParser` is used.
 
-- `.html` **html** (heuristic: starts with `href="http{,s}://`, ends with `"`)
-- `.md` **markdown** (heuristic: starts with `(http{,s}://`, ends with `)`)
+For Markdown and other filetypes, there is naive support:
+
+- `.md` **Markdown** (heuristic: starts with `(http{,s}://`, ends with `)`)
 - other filetypes (heuristic: starts with `http{,s}://`, ends with a whitespace character)
 
 These heuristics are imperfect, but they do get the job done in most circumstances.
