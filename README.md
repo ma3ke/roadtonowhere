@@ -18,7 +18,7 @@ pip install .
 ## Usage
 
 ```
-usage: main.py [-h] path [path ...]
+usage: roadtonowhere [-h] path [path ...]
 
 check a document for broken urls
 
